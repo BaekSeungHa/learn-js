@@ -44,6 +44,8 @@ console.log(nam2, tot2, avg2)
 //따라서 밀접하게 관련이 있는 데이터를 하나로 묶어서 처리하기
 //위해 객체를 도입합니다/
 
+//이전의 코드는 데이터와 데이터를 처리하는 함수가 이원화되어 있어
+//논리적인 오류인 버그가 발생할 수 있다는 치명적인 문제가
 function total(st) { return st.kor + st.eng + st.math;}
 function average(st) {
     return (st.kor + st.eng + st.math) / st.cnt;
@@ -71,3 +73,47 @@ var tot2 = total(susan);
 var avg2 = average(susan);
 console.log(susan.nam, tot2, avg2);
 
+//함수 안에서 객체 안의 속성에 접근할 수 있도록
+//JS는 this라는 키워드를 제공합니다
+//this 키워드의 의미는 현재 객체 자신을 의미하는
+//변수의 의미로 해석하면 됩니다.
+//이와 같이 this라는 개념을 사용할 수 있는 함수를
+//다른 함수와 구분하기 위해 메서드라고 부릅니다
+total: function() {
+    return this.kor + this.eng + this.math;
+}
+average: function() {
+    return (this.kor + this.eng + this.math) / this.cnt;
+}
+
+
+//참고 ! 여기서 다니엘과 수잔을 객체라고한다
+//객체: 사물 또는 물건
+//현실 세계의 사물 또는 물건은 2가지의 개념의 추상화할 수 있습니다
+//1. 상태나 속성
+//2. 행위나 기능
+
+//ex)볼펜
+//1. 상태나 속성: 검정색, 0.5mm, 모나미,...
+//2. 행위나 기능: 쓰다, 그리다....
+
+//이전의 코드는 학생 정보를 저장하기 위해 사용자가 일일이 
+//객체를 정의해야 한다는 단점이 있습니다. 이를 해결하기 위해
+//함수르를 도입하도록 합니다.
+
+function createStudent(name, kor, eng, math) {
+    const obj = {}; //빈 객체를 생성합니다
+    obj.name = name;
+    obj.kor = kor;
+    obj.eng = eng;
+    obj.math = math;
+    obj.total = function() {
+        return this.kor + this.eng + this.math;
+    },
+    obj.average = function() {
+        return (this.kor + this.eng + this.math) / 3;
+    }
+    return obj;
+}
+
+var daniel = createStudent(name, kor, eng, math) {}
